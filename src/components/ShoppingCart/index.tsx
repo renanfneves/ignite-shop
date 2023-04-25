@@ -23,7 +23,7 @@ export function ShoppingCart() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
-  const { handleCloseCart, cartDetails, totalPrice, cartCount } =
+  const { handleCloseCart, cartDetails, totalPrice, cartCount, clearCart } =
     useShoppingCart()
 
   const { formatLineItems } = useFormatLineItems()
@@ -59,8 +59,10 @@ export function ShoppingCart() {
       const response = await axios.post('/api/checkout', {
         products: lineItems,
       })
+      clearCart()
 
       const { checkoutUrl } = response.data
+
       window.location.href = checkoutUrl
     } catch (err) {
       setIsCreatingCheckoutSession(false)
